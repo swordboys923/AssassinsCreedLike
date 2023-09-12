@@ -7,10 +7,15 @@ public class PlayerStateMachine : StateMachine {
 
     [SerializeField] private InputReader inputReader;
     [SerializeField] private CharacterController characterController;
+    [SerializeField] private Animator animator;
     [SerializeField] private float freeLookMovementSpeed;
+    [SerializeField] private float rotationDamping;
+    
+    private Transform mainCameraTransform;
 
     private void Start() {
-        SwitchState(new PlayerTestState(this));
+        mainCameraTransform = Camera.main.transform;
+        SwitchState(new PlayerFreeLookState(this));
     }
 
     public InputReader GetInputReader() {
@@ -23,5 +28,17 @@ public class PlayerStateMachine : StateMachine {
 
     public float GetFreeLookMovementSpeed() {
         return freeLookMovementSpeed;
+    }
+    
+    public float GetRoatationDamping() {
+        return rotationDamping; 
+    }
+
+    public Animator GetAnimator() {
+        return animator;
+    }
+
+    public Transform GetMainCameraTransform() {
+        return mainCameraTransform;
     }
 }
