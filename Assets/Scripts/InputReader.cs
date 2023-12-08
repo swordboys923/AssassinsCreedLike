@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InputReader : MonoBehaviour, Controls.IPlayerActions {
 
     public event Action OnJumpEvent;
+    public event Action OnTargetEvent;
     public event Action OnDodgeEvent;
 
     private Vector2 movementValue;
@@ -31,7 +32,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions {
         OnDodgeEvent?.Invoke();
     }
 
-    public void OnMove(InputAction.CallbackContext context){
+    public void OnMove(InputAction.CallbackContext context) {
         movementValue = context.ReadValue<Vector2>();
     }
 
@@ -39,7 +40,12 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions {
         return movementValue;
     }
 
-    public void OnLook(InputAction.CallbackContext context){
+    public void OnLook(InputAction.CallbackContext context) {
         
+    }
+
+    public void OnTarget(InputAction.CallbackContext context) {
+        if(!context.performed) return;
+        OnTargetEvent?.Invoke();
     }
 }

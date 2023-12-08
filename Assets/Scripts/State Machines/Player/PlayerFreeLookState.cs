@@ -14,6 +14,7 @@ public class PlayerFreeLookState : PlayerBaseState {
     private const float AnimatorDampTime = 0.1f;
 
     public override void Enter() {
+        stateMachine.GetInputReader().OnTargetEvent += InputReader_OnTarget;
     }
 
     public override void Tick(float deltaTime)
@@ -35,6 +36,7 @@ public class PlayerFreeLookState : PlayerBaseState {
     }
 
     public override void Exit() {
+        stateMachine.GetInputReader().OnTargetEvent -= InputReader_OnTarget;
     }
 
     private Vector3 CalculateMovement() {
@@ -56,5 +58,9 @@ public class PlayerFreeLookState : PlayerBaseState {
             stateMachine.transform.rotation,
             Quaternion.LookRotation(movement),
             deltaTime * stateMachine.GetRoatationDamping());
+    }
+
+    private void InputReader_OnTarget() {
+        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
     }
 }
